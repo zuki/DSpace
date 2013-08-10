@@ -99,7 +99,8 @@
     
     ItemCounter ic = new ItemCounter(UIUtil.obtainContext(request));
 
-    boolean show_title = ((Boolean)request.getAttribute("show.title")).booleanValue();
+    Boolean showTitle = (Boolean)request.getAttribute("show.title");
+    boolean show_title = showTitle != null?showTitle.booleanValue():false;
 %>
 
 <%@page import="org.dspace.app.webui.servlet.MyDSpaceServlet"%>
