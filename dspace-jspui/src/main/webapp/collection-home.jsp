@@ -100,7 +100,7 @@
     ItemCounter ic = new ItemCounter(UIUtil.obtainContext(request));
 
     Boolean showTitle = (Boolean)request.getAttribute("show.title");
-    boolean show_title = showTitle != null?showTitle.booleanValue():false;
+    boolean show_title = showTitle != null ? showTitle.booleanValue() : false;
 %>
 
 <%@page import="org.dspace.app.webui.servlet.MyDSpaceServlet"%>
@@ -244,7 +244,7 @@
 %>
     <%-- give us the top report on what we are looking at --%>
     <div align="center" class="browse_range">
-        <fmt:message key="jsp.collection-home.recentsub.range">
+        <fmt:message key="jsp.collection-home.content.range">
             <fmt:param value="<%= Integer.toString(bi.getStart()) %>"/>
             <fmt:param value="<%= Integer.toString(bi.getFinish()) %>"/>
             <fmt:param value="<%= Integer.toString(bi.getTotal()) %>"/>
@@ -288,7 +288,7 @@
 
     <%-- give us the bottom report on what we are looking at --%>
     <div align="center" class="browse_range">
-        <fmt:message key="jsp.collection-home.recentsub.range">
+        <fmt:message key="jsp.collection-home.content.range">
             <fmt:param value="<%= Integer.toString(bi.getStart()) %>"/>
             <fmt:param value="<%= Integer.toString(bi.getFinish()) %>"/>
             <fmt:param value="<%= Integer.toString(bi.getTotal()) %>"/>
