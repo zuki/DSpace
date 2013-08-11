@@ -40,21 +40,39 @@ public class CollectionItemList implements CollectionHomeProcessor
     private static final int etal    = ConfigurationManager.getIntProperty("webui.browse.author-limit", -1);
     // the number of items to display per page
     private static final int perpage = ConfigurationManager.getIntProperty("webui.collectionhome.perpage", 20);
-    // the sort option: use "dateaccessioned" if exists
+    // the sort option: use "dateaccessioned" if exists and nothing else specified
+    private static String sortname = ConfigurationManager.getProperty("webui.collectionhome.browse-sort");
     private static int sort_by = -1;
 
+    // the sort direction (asc or desc): desc is the default if not specified or invalid
+	private static String sortdirection = ConfigurationManager
+			.getProperty("webui.collectionhome.browse-sort-direction");
     static
     {
         if (name == null)
         {
             name = "title";
         }
+        
+        if (sortname == null)
+        {
+        	sortname = "dateaccessioned";
+        }
 
+        if (!"asc".equalsIgnoreCase(sortdirection))
+        {
+        	sortdirection = SortOption.DESCENDING;
+        }
+        else
+        {
+        	sortdirection = SortOption.ASCENDING;
+        }
+        
         try
         {
             for (SortOption option : SortOption.getSortOptions())
             {
-                if ("dateaccessioned".equals(option.getName()))
+                if (sortname.equals(option.getName()))
                 {
                     sort_by = option.getNumber();
                     break;
@@ -93,7 +111,7 @@ public class CollectionItemList implements CollectionHomeProcessor
             BrowseIndex bi = BrowseIndex.getBrowseIndex(name);
             if (bi == null || !"item".equals(bi.getDisplayType()))
             {
-                request.setAttribute("show.title", Boolean.FALSE);
+                request.setAttribute("show.items", Boolean.FALSE);
                 return;
             }
 
@@ -106,7 +124,7 @@ public class CollectionItemList implements CollectionHomeProcessor
             if (sort_by != -1)
             {
                 scope.setSortBy(sort_by);
-                scope.setOrder(SortOption.DESCENDING);
+                scope.setOrder(sortdirection);
             }
             BrowseEngine be = new BrowseEngine(context);
             BrowseInfo binfo = be.browse(scope);
@@ -114,16 +132,16 @@ public class CollectionItemList implements CollectionHomeProcessor
 
             if (binfo.hasResults())
             {
-                request.setAttribute("show.title", Boolean.TRUE);
+                request.setAttribute("show.items", Boolean.TRUE);
             }
             else
             {
-                request.setAttribute("show.title", Boolean.FALSE);
+                request.setAttribute("show.items", Boolean.FALSE);
             }
         }
         catch (BrowseException e)
         {
-            request.setAttribute("show.title", Boolean.FALSE);
+            request.setAttribute("show.items", Boolean.FALSE);
         }
     }
 }
