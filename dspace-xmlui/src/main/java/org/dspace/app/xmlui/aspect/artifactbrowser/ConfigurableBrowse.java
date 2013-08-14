@@ -684,7 +684,14 @@ public class ConfigurableBrowse extends AbstractDSpaceTransformer implements
             BrowseIndex bi = BrowseIndex.getBrowseIndex(type);
             if (bi == null)
             {
-                throw new ResourceNotFoundException("Browse index " + type + " not found");
+                if (sortBy > 0)
+                {
+                    bi = BrowseIndex.getBrowseIndex(SortOption.getSortOption(sortBy));
+                }
+                else
+                {
+                    bi = BrowseIndex.getBrowseIndex(SortOption.getDefaultSortOption());
+                }
             }
             
             // If we don't have a sort column
@@ -782,6 +789,10 @@ public class ConfigurableBrowse extends AbstractDSpaceTransformer implements
 
                 params.scope.setStartsWith(startsWith);
             }
+        }
+        catch (SortException se)
+        {
+            throw new UIException("Unable to get browse index", se);
         }
         catch (BrowseException bex)
         {
