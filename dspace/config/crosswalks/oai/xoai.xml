@@ -15,6 +15,7 @@
 
 	<Contexts>
 		<Context baseurl="request">
+			<Filter refid="discoverableFilter" />
 			<Format refid="oaidc" />
 			<Format refid="mets" />
 			<Format refid="xoai" />
@@ -241,6 +242,9 @@
 			<Parameter key="value">
 				<Value>info:eu-repo/grantAgreement/EC/FP</Value>
 			</Parameter>
+		</Filter>
+		<Filter id="discoverableFilter">
+			<Class>org.dspace.xoai.filter.DSpaceDiscoverableFilter</Class>
 		</Filter>
 	</Filters>
 	

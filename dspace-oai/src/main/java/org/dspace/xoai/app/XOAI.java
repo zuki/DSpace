@@ -175,10 +175,7 @@ public class XOAI
                 .println("Incremental import. Searching for documents modified after: "
                         + last.toString());
 
-        String sqlQuery = "SELECT item_id FROM item WHERE in_archive=TRUE AND discoverable=TRUE AND last_modified > ?";
-        if(DatabaseManager.isOracle()){
-                sqlQuery = "SELECT item_id FROM item WHERE in_archive=1 AND discoverable=1 AND last_modified > ?";
-        }
+        String sqlQuery = "SELECT item_id FROM item WHERE last_modified > ?";
 
         try
         {
@@ -226,9 +223,7 @@ public class XOAI
             {
                 try
                 {
-                    server.add(this.index(Item.find(_context, iterator.next()
-                            .getIntColumn("item_id"))));
-                    
+                    server.add(this.index(Item.find(_context, iterator.next().getIntColumn("item_id"))));
                     _context.clearCache();
                 }
                 catch (SQLException ex)
@@ -274,6 +269,7 @@ public class XOAI
         doc.addField("item.lastmodified", DateUtils.toSolrDate(item.getLastModified()));
         doc.addField("item.submitter", item.getSubmitter().getEmail());
         doc.addField("item.deleted", item.isWithdrawn() ? "true" : "false");
+        doc.addField("item.discoverable", item.isDiscoverable() ? "true" : "false");
         for (Collection col : item.getCollections())
             doc.addField("item.collections",
                     "col_" + col.getHandle().replace("/", "_"));
