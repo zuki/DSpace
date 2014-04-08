@@ -130,7 +130,7 @@ public class ArXivFileDataLoader extends FileDataLoader
     public RecordSet getRecords(DataLoadingSpec spec)
             throws MalformedSourceException
     {
-        if (spec.getOffset() > 0)
+        if (spec.getOffset() > 0) 
         {
             return new RecordSet();
         }

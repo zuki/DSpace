@@ -29,7 +29,10 @@ import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.dspace.app.util.XMLUtils;
+<<<<<<< HEAD
 import org.dspace.core.ConfigurationManager;
+=======
+>>>>>>> upstream/master
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -48,6 +51,7 @@ public class CiNiiService
         this.timeout = timeout;
     }
 
+<<<<<<< HEAD
     public Record getByCiNiiID(String id) throws HttpException,
             IOException
     {
@@ -55,16 +59,34 @@ public class CiNiiService
     }
 
     public List<Record> searchByTerm(String title, String author, int year)
+=======
+    public Record getByCiNiiID(String id, String appId) throws HttpException,
+            IOException
+    {
+            return search(id, appId);
+    }
+
+    public List<Record> searchByTerm(String title, String author, int year, 
+            int maxResults, String appId)
+>>>>>>> upstream/master
             throws HttpException, IOException
     {
         List<Record> records = new ArrayList<Record>();
 
+<<<<<<< HEAD
         List<String> ids = getCiNiiIDs(title, author, year);
+=======
+        List<String> ids = getCiNiiIDs(title, author, year, maxResults, appId);
+>>>>>>> upstream/master
         if (ids != null && ids.size() > 0)
         {
             for (String id : ids)
             {
+<<<<<<< HEAD
                 Record record = search(id);
+=======
+                Record record = search(id, appId);
+>>>>>>> upstream/master
                 if (record != null)
                 {
                     records.add(record);
@@ -79,6 +101,7 @@ public class CiNiiService
      * Get metadata by searching CiNii RDF API with CiNii NAID
      *
      */
+<<<<<<< HEAD
     private Record search(String id) throws IOException, HttpException
     {
         String appid = ConfigurationManager.getProperty(SubmissionLookupService.CFG_MODULE, "cinii.appid");
@@ -173,6 +196,55 @@ public class CiNiiService
                 {
                     stream.close();
                 }
+=======
+    private Record search(String id, String appId)
+        throws IOException, HttpException
+    {
+        GetMethod method = null;
+        try
+        {
+            HttpClient client = new HttpClient();
+            client.setTimeout(timeout);
+            method = new GetMethod("http://ci.nii.ac.jp/naid/"+id+".rdf?appid="+appId);
+            // Execute the method.
+            int statusCode = client.executeMethod(method);
+
+            if (statusCode != HttpStatus.SC_OK)
+            {
+                if (statusCode == HttpStatus.SC_BAD_REQUEST)
+                    throw new RuntimeException("CiNii RDF is not valid");
+                else
+                    throw new RuntimeException("CiNii RDF Http call failed: "
+                            + method.getStatusLine());
+            }
+
+            try
+            {
+                DocumentBuilderFactory factory = DocumentBuilderFactory
+                        .newInstance();
+                factory.setValidating(false);
+                factory.setIgnoringComments(true);
+                factory.setIgnoringElementContentWhitespace(true);
+
+                DocumentBuilder db = factory.newDocumentBuilder();
+                Document inDoc = db.parse(method.getResponseBodyAsStream());
+
+                Element xmlRoot = inDoc.getDocumentElement();
+
+                return CiNiiUtils.convertCiNiiDomToRecord(xmlRoot);
+            }
+            catch (Exception e)
+            {
+                throw new RuntimeException(
+                        "CiNii RDF identifier is not valid or not exist");
+            }
+        }
+        finally
+        {
+            if (method != null)
+            {
+                method.releaseConnection();
+>>>>>>> upstream/master
             }
         }
     }
@@ -181,6 +253,7 @@ public class CiNiiService
      * Get CiNii NAIDs by searching CiNii OpenURL API with title, author and year
      *
      */
+<<<<<<< HEAD
     private  List<String> getCiNiiIDs(String title, String author, int year) 
         throws IOException, HttpException
     {
@@ -192,6 +265,12 @@ public class CiNiiService
             return null;
         }
 
+=======
+    private  List<String> getCiNiiIDs(String title, String author, int year, 
+        int maxResults, String appId) 
+        throws IOException, HttpException
+    {
+>>>>>>> upstream/master
         // Need at least one query term
         if (title == null && author == null && year == -1)
         {
@@ -205,7 +284,12 @@ public class CiNiiService
             HttpClient client = new HttpClient();
             client.setTimeout(timeout);
             StringBuilder query = new StringBuilder();
+<<<<<<< HEAD
             query.append("format=rss&appid=").append(appid);
+=======
+            query.append("format=rss&appid=").append(appId)
+                 .append("&count=").append(maxResults);
+>>>>>>> upstream/master
             if (title != null)
             {
                 query.append("&title=").append(URLEncoder.encode(title, "UTF-8"));

@@ -61,6 +61,36 @@
 		name="org.dspace.submit.lookup.SubmissionLookupService">
 		<property name="phase1TransformationEngine" ref="phase1TransformationEngine" />
 		<property name="phase2TransformationEngine" ref="phase2TransformationEngine" />
+		<!-- Uncomment the following property if you want specific fields to appear in the detail presentation
+			 of a publication. Default values are the ones shown below -->
+		<!-- 
+		<property name="detailFields">
+	        <list>
+	        	<value>title</value>
+                <value>authors</value>
+                <value>editors</value>
+                <value>translators</value>
+                <value>chairs</value>
+                <value>issued</value>
+                <value>abstract</value>
+                <value>doi</value>
+                <value>journal</value>
+                <value>volume</value>
+                <value>issue</value>
+                <value>publisher</value>
+                <value>jissn</value>
+                <value>jeissn</value>
+                <value>pisbn</value>
+                <value>eisbn</value>
+                <value>arxivCategory</value>
+                <value>keywords</value>
+                <value>mesh</value>
+                <value>language</value>
+                <value>subtype</value>
+                <value>translators</value>
+	        </list>
+	    </property>
+	    -->
 	</bean>
 
 	<!-- **************************************************************************************************** -->
@@ -254,13 +284,13 @@
 	<bean id="csvDataLoader" class="gr.ekt.bteio.loaders.CSVDataLoader">
 		<property name="fieldMap">
 			<map>
-				<entry key="1" value="title" />
-				<entry key="0" value="authors" />
+				<entry key="0" value="title" />
+				<entry key="1" value="authors" />
 				<entry key="2" value="issued" />
 				<entry key="3" value="journal" />
-				<entry key="14" value="abstract" />
-				<entry key="31" value="jissn" />
-				<entry key="38" value="subtype" />
+				<entry key="4" value="abstract" />
+				<entry key="5" value="jissn" />
+				<entry key="6" value="subtype" />
 			</map>
 		</property>
 		<property name="skipLines" value="1" />
@@ -272,13 +302,13 @@
 	<bean id="tsvDataLoader" class="gr.ekt.bteio.loaders.CSVDataLoader">
 		<property name="fieldMap">
 			<map>
-				<entry key="7" value="Title" />
-				<entry key="1" value="Author" />
-				<entry key="37" value="Year" />
-				<entry key="8" value="Journal" />
-				<entry key="19" value="Abstract" />
-				<entry key="31" value="ISSN" />
-				<entry key="0" value="Type" />
+				<entry key="0" value="title" />
+				<entry key="1" value="authors" />
+				<entry key="2" value="issued" />
+				<entry key="3" value="journal" />
+				<entry key="4" value="abstract" />
+				<entry key="5" value="jissn" />
+				<entry key="6" value="subtype" />
 			</map>
 		</property>
 		<!-- This makes the CSV data loader able to load TSV data -->
@@ -403,6 +433,14 @@
 	<!-- CrossRef Data Loaders -->
 	<bean id="crossRefOnlineDataLoader" class="org.dspace.submit.lookup.CrossRefOnlineDataLoader">
 		<property name="searchProvider" value="false" />
+		<!-- For CrossRef service you need to obtain an API Key from CrossRef. Once you get it, add it 
+			 to the following configuration value 
+		-->
+		<property name="apiKey" value="" />
+		<!-- Uncomment the following line if you want to define the max results returned by the 
+			 CrossRef free text (by author, title, date) search. Default value is 10 
+		-->
+		<!-- <property name="maxResults" value="10" /> -->
 		<property name="fieldMap" ref="crossrefInputMap" />
 	</bean>
 
@@ -443,7 +481,17 @@
 
 	<!-- CiNii -->
 	<bean id="ciniiOnlineDataLoader" class="org.dspace.submit.lookup.CiNiiOnlineDataLoader">
-            <property name="searchProvider" value="true" />
+            <property name="searchProvider" value="false" />
+            <!-- For CiNii service you need to obtain an Application ID from NII. 
+                 Once you get it, add it to the following configuration value.
+                 For details, see http://ci.nii.ac.jp/info/en/api/developer.html
+             -->
+            <property name="appId" value="" />
+            <!-- Uncomment the following line if you want to define the max results 
+                 returned by the CiNii free text (by author, title, date) search. 
+                 Default value is 10 
+             -->
+            <!-- <property name="maxResults" value="10" /> -->
             <property name="fieldMap" ref="ciniiInputMap" />
 	</bean>
 
@@ -501,6 +549,7 @@
 				<entry value="allkeywords" key="dc.subject" />
 				<entry value="arxivCategory" key="dc.subject" />
 				<entry value="doi" key="dc.identifier" />
+				<entry value="publisher" key="dc.publisher" />
 				<!-- Not used - new metadata fields need to be declared for them in DSpace registry -->
 				<!-- 
 				<entry value="url" key="" />
@@ -518,6 +567,10 @@
 				<entry value="editionnumber" key="" />
 				<entry value="seriestitle" key="" />
 				<entry value="volumetitle" key="" />
+				<entry value="titleAlternative" key="" />
+				<entry value="authorAlternative" key="" />
+				<entry value="ncid" key="" />
+				<entry value="naid" key="" />
 				 -->
 				 
 			</map>
