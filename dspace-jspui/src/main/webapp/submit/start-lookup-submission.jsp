@@ -235,7 +235,7 @@
 	<% 
 		}
 	%>
-	</select> 	
+	</select> 
 	</div>
 	</div>
 	<div class="form-group">
@@ -253,13 +253,6 @@
 				<label class="col-md-3" for="select-collection-file"><fmt:message key="jsp.submit.start-lookup-submission.byfile.filecollection"/>:</label>
 				<div class="col-md-6">
                                   <dspace:selectcollection klass="form-control submission-file-loader" name="select-collection-file" id="select-collection-file" collection="<%= collection_id %>"/>
-<%--
-				<select class="form-control submission-file-loader" name="select-collection-file" id="select-collection-file">
-					<% for (Collection c : collections) { %>
-					<option value="<%= c.getID() %>"><%= c.getName() %></option>
-					<% }  %>
-				</select>
---%>
 				</div>
 				<button class="btn btn-primary col-md-2 pull-right" type="button" id="loadfile_go"><fmt:message key="jsp.submit.start-lookup-submission.byfile.process"/></button>
 	</div>
@@ -285,14 +278,6 @@
 			</div>
 			<div class="col-md-7">
                           <dspace:selectcollection klass="form-control" id="select-collection-manual" collection="<%= collection_id %>"/>
-<%--
-			<select class="form-control" id="select-collection-manual">
-				<option value="-1"><fmt:message key="jsp.submit.start-lookup-submission.select.collection.defaultoption"/></option>
-				<% for (Collection c : collections) { %>
-				<option value="<%= c.getID() %>"><%= c.getName() %></option>
-				<% }  %>
-			</select>
---%>
 			</div>
 			</div>
 			<form class="form-horizontal" id="form-submission" action="" method="post">
@@ -314,13 +299,6 @@
 		<div id="hidden-area" style="display: none;">
 			<div id="select-collection-div">
                           <dspace:selectcollection klass="form-control" id="select-collection" collection="<%= collection_id %>"/>
-<%--
-				<select class="form-control" id="select-collection">
-					<% for (Collection c : collections) { %>
-					<option value="<%= c.getID() %>"><%= c.getName() %></option>
-					<% }  %>
-				</select>
---%>
 			</div>
 		</div>
 		
