@@ -1,12 +1,9 @@
-/*
- * SelectCollectionTag.java
+/**
+ * The contents of this file are subject to the license and copyright
+ * detailed in the LICENSE and NOTICE files at the root of the source
+ * tree and available online at
  *
- * Version: 1.0
- *
- * Date: 2014-04-10
- *
- * Copyright (c) 2014 Keiji Suzuki
- *
+ * http://www.dspace.org/license/
  */
 package org.dspace.app.webui.jsptag;
 
@@ -120,7 +117,10 @@ public class SelectCollectionTag extends TagSupport
                 for (Collection coll : commCollList.get(comm))
                 {
                     sb.append("<option value=\"").append(coll.getID()).append("\"");
-                    if (collection == coll.getID()) sb.append(" selected=\"selected\"");
+                    if (collection == coll.getID())
+                    {
+                        sb.append(" selected=\"selected\"");
+                    }
                     sb.append(">").append(CollectionDropDown.collectionPath(coll)).append("</option>\n");
                 }
                 //sb.append("</optgroup>\n");
