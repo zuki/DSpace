@@ -618,7 +618,6 @@ else
 <!-- give a content to the div -->
 </div>
 <% } %>
-<% } %>
 <dspace:sidebar>
 <%
 	boolean brefine = false;
@@ -743,5 +742,6 @@ else
 </div>
 <% } %>
 </dspace:sidebar>
+<% } %>
 </dspace:layout>
 
